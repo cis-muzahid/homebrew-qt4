@@ -15,8 +15,8 @@ class PyqtAT4 < Formula
   depends_on "cartr/qt4/qt@4"
   depends_on "cartr/qt4/qt-webkit@2.3" => :recommended
 
-  if build.with? "python"
-    depends_on "sip" => "with-python"
+  if build.with? "python@2"
+    depends_on "sip" => "with-python2"
   else
     depends_on "sip"
   end
@@ -27,7 +27,7 @@ class PyqtAT4 < Formula
       ENV.append "QMAKESPEC", "unsupported/macx-clang-libc++"
     end
 
-    Language::Python.each_python(build) do |python, version|
+    ["python2", "python3"].each do |python|
       ENV.append_path "PYTHONPATH", "#{Formula["sip"].opt_lib}/python#{version}/site-packages"
 
       args = %W[
