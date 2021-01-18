@@ -8,15 +8,15 @@ class PyqtAT4 < Formula
   option "without-python@2", "Build without python 2 support"
   depends_on "python" => :optional
 
-  if build.without?("python") && build.without?("python@2")
-    odie "pyqt: --with-python must be specified when using --without-python@2"
-  end
+  # if build.without?("python") && build.without?("python@2")
+  #   odie "pyqt: --with-python must be specified when using --without-python@2"
+  # end
 
   depends_on "cartr/qt4/qt@4"
   depends_on "cartr/qt4/qt-webkit@2.3" => :recommended
 
-  if build.with? "python@2"
-    depends_on "sip" => "with-python2"
+  if build.with? "python@2.7"
+    depends_on "sip" => "with-python2.7"
   else
     depends_on "sip"
   end
@@ -27,7 +27,7 @@ class PyqtAT4 < Formula
       ENV.append "QMAKESPEC", "unsupported/macx-clang-libc++"
     end
 
-    ["python2", "python3"].each do |python|
+    ["python2.7", "python3"].each do |python|
       ENV.append_path "PYTHONPATH", "#{Formula["sip"].opt_lib}/python#{version}/site-packages"
 
       args = %W[
