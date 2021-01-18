@@ -49,6 +49,20 @@ class PyqtAT4 < Formula
       # interfere with the build using configure-ng.py, we run configure.py in a
       # temporary directory and only retain the pyqtconfig.py from that.
 
+
+      # THis code download sip 4.19.24 zip and unziped it 
+      require 'fileutils'
+
+      input = HTTParty.get("https://www.riverbankcomputing.com/static/Downloads/sip/4.19.24/sip-4.19.24.zip").body
+      Zip::InputStream.open(StringIO.new(input)) do |io|
+        while entry = io.get_next_entry
+          puts entry.name
+          parse_zip_content io.read
+          FileUtils.mv(io, "#{HOMEBREW_CELLAR}/#{io}")
+        end
+      end
+
+
       require "tmpdir"
       dir = Dir.mktmpdir
       begin
